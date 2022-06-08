@@ -4,7 +4,7 @@ This generator creates a world map on which any point is colored according to on
 You can find it here: [CloserToMapGenerator](https://jakpaul.github.io/CloserToMapGenerator/)
 
 Example output:
-![alt text](https://github.com/jakpaul/CloserToMapGenerator/blob/f8f014f21201ab88ba840cbdef031bbc3bee22f5/ExampleMap.png "Example output map")
+![alt text](https://github.com/jakpaul/CloserToMapGenerator/blob/ec37c970ff1819a0cad3ca559ed31032f373d2af/ExampleMap.png "Example output map")
 
 ## About this project
 The [Mercator projection](https://en.wikipedia.org/wiki/Mercator_projection) is commonly applied to create world maps, transferring the spherical geometry of the earth onto a two-dimensional plane in the process. While preserving direction and size relations on local scales, projecting the entire globe results in distortion of sizes and distances, particularly in the polar regions. This tool aims to visualize the disadvantages of the Mercator projection by displaying the distances between locations on a custom Mercator world map.
