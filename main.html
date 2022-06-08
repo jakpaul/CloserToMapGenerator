@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+
+        
+        <!-- Materialize -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        
+        <!-- JQuery -->
+        <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>-->
+
+        <!-- Packages -->
+        <script src="packages/jscolor/js/jscolor.min.js"></script>
+
+        <!-- Main scripts -->
+        <script src="js/main.js"></script>
+        <script src="js/mapRenderer.js"></script>
+        <script src="js/mapData.js"></script>
+
+        <script src="js/mapPathSource.js"></script>
+        <link rel="stylesheet" href="css/styles.css">
+
+        <title>MapCloserTo Generator</title>
+    </head>
+
+    <body>
+        <div class="row">
+            <!-- Configuration panel -->
+            <div class="col s12 m6 l5">
+                <div class="card">
+                    <div class="card-tabs">
+                        <ul class="tabs tabs-fixed-width">
+                        <li class="tab"><a class="waves-effect active" href="#config_tab_map_settings">Map Settings</a></li>
+                        <li class="tab"><a class="waves-effect" href="#config_tab_locations">Locations</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="card-content">
+                        <div id="config_tab_map_settings">
+                            <!-- Inputs for map width and height -->
+                            <label>
+                                <div class="row">
+                                    <div class="settings_label col s5">
+                                        Size
+                                    </div>
+                                    <div class="col s1" id="config_size_warning">
+                                        <i class="material-icons">warning_amber</i>
+                                    </div>
+                                    <div class="col s3">
+                                        <div class="input-field right-align">
+                                            <input id="config_input_width" type="number" class="validate">
+                                            <label class="active" for="config_input_width">Width</label>
+                                        </div>
+                                    </div>
+                                    <div class="col s3">
+                                        <div class="input-field right-align">
+                                            <input id="config_input_height" type="number" class="validate">
+                                            <label class="active" for="config_input_height">Height</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </label>
+
+                            <!-- Create legend switch -->
+                            <div class="switch">
+                                <label>
+                                    <div class="row">
+                                        <div class="settings_label col s8">
+                                            Create legend
+                                        </div>
+                                        <div class="col s4">
+                                            <div class="right-align">
+                                                <input type="checkbox" id="config_switch_legend_enabled">
+                                                <span class="lever"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </label>
+                            </div>
+
+                            <!-- Legend size slider -->
+                            <label>
+                                <div class="row">
+                                    <div class="settings_label col s8">
+                                        Legend size
+                                    </div>
+                                    <div class="col s4">
+                                        <div class="right-align">
+                                            <p class="range-field">
+                                                <input type="range" id="config_range_legend_size" min="1" max="10" class="disabled"/>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </label>
+
+
+                            <!-- Create marks switch -->
+                            <div class="switch">
+                                <label>
+                                    <div class="row">
+                                        <div class="settings_label col s8">
+                                            Mark locations
+                                        </div>
+                                        <div class="col s4">
+                                            <div class="right-align">
+                                                <input type="checkbox" id="config_switch_marks_enabled">
+                                                <span class="lever"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </label>
+                            </div>
+
+                            <!-- Mark size slider -->
+                            <label>
+                                <div class="row">
+                                    <div class="settings_label col s8">
+                                        Mark size
+                                    </div>
+                                    <div class="col s4">
+                                        <div class="right-align">
+                                            <p class="range-field">
+                                                <input type="range" id="config_range_mark_size" min="1" max="10" />
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                        
+                        
+                        
+                        <div id="config_tab_locations">
+                            <!-- Table for locations on the map -->
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th width="10%"></th>
+                                        <th width="20%"><span class="valign-wrapper"><i class="material-icons icon_header">title</i>Name</span></th>
+                                        <th width="20%"><span class="valign-wrapper"><i class="material-icons icon_header icon_rotate">height</i>Longitude</span></th>
+                                        <th width="20%"><span class="valign-wrapper"><i class="material-icons icon_header">height</i>Latitude</span></th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                        
+                                <tbody id="config_list_locations_root">
+                                    <!-- [Content generated programmatically] -->
+                                </tbody>
+                            </table>
+                            
+                            <br>
+                            <br>
+                            <br>
+
+                            <!-- Add/edit location section -->
+                            <div class="valign-wrapper sub_header">
+                                <i class="material-icons prefix">add</i><p></p>Add location</p>
+                            </div>
+                            <div class="row">
+                                <form class="col s12">
+                                    <div class="row">
+                                        <!-- Location name input -->
+                                        <div class="input-field col s11">
+                                            <input type="text" id="config_input_location_name" class="materialize-textarea">
+                                            <label for="config_input_location_name">Name</label>
+                                        </div>
+
+                                        <!-- Location color selector -->
+                                        <div id="config_input_color_wrapper" class="valign-wrapper col s1">
+                                            <button id="config_input_color" class="btn" data-jscolor="{width:250, paletteCols:9}"></button>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <!-- Input for the longitude of the location -->
+                                        <div class="input-field col s6">
+                                            <input type="number" id="config_input_location_longitude" class="materialize-textarea validate" step="any" min="-180" max="180">
+                                            <label for="config_input_location_longitude">Longitude (°)</label>
+                                        </div>
+
+                                        <!-- Input for the latitude of the location -->
+                                        <div class="input-field col s6">
+                                            <input type="number" id="config_input_location_latitude" class="materialize-textarea validate" step="any" min="-90" max="90">
+                                            <label for="config_input_location_latitude">Latitude (°)</label>
+                                        </div>
+                                    </div>
+                                    <!-- Add/set location button -->
+                                    <div class="row">
+                                        <div class="col s1">
+                                            <a class="btn icon_btn waves-effect waves-light" id="btn_set_location"><i class="material-icons left">done</i></a>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+        
+
+                        </div>
+                    </div>
+
+                    <!-- Create map/reset parameters buttons section -->
+                    <div class="card-action right-align">
+                        <a class="btn btn_light grey lighten-2 waves-effect waves-light" id="btn_reset">Reset</a>
+                        <a class="btn waves-effect waves-light" id="btn_create_map">Create</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col s12 m6 l7">
+                <!-- Top buttons panel -->
+                <div class="card">
+                    <div class="card-content" id="controls_root">
+                        <div id="info_content_root">
+                            <a class="btn btn_light grey lighten-2 waves-effect waves-light modal-trigger" id="btn_help" href="#modal_help">How to use</a>
+                            <a class="btn btn_light grey lighten-2 waves-effect waves-light modal-trigger" id="btn_info" href="#modal_info">Info</a>
+                        </div>
+                        <div id="download_content_root" class="valign-wrapper">
+                            <span id="file_info"></span>
+                            <a class="btn waves-effect waves-light disabled" id="btn_download_map">Download</a>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Map preview -->
+                <div class="card">
+                    <div class="card-content">
+                        <div id="map_root">
+                            <!-- [Content generated programmatically] -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- Help window -->
+        <div id="modal_help" class="modal modal-fixed-footer">
+            <div class="modal-content">
+                <h4>How to use this tool</h4>
+                <p>
+                    This generator creates a world map on which any point is colored according to the location it is closest to.
+                    These locations can be listed in a legend and may be marked on the map.
+                </p>
+                <h5>Configuration</h5>
+                <p>
+                    Set the map configuration in the <i>Map Settings</i> tab on the left as desired.
+                    Here you may choose whether you would like to have the locations marked on the map and listed in a legend in the bottom left of the map.
+                    You may also change the size of legend and marks. Also enter width and height of the final map (in pixels) as required.
+                    Keep in mind that a higher resolution results in longer computation times and may lag your browser.
+                </p>
+                <h5>Adding locations</h5>
+                <p>
+                    In the <i>Locations</i> tab add locations to be displayed on the map by entering a name, a color and coordinates in decimal degrees.
+                    E.g. <span class="box_text">40.748460</span> instead of <span class="box_text">40°44'54.456''N</span>
+                    Then confirm, and the location will be listed in the table above. Hover over entries to edit or remove them.
+                    Provide at least two locations.
+                </p>
+                <br>
+                <p>
+                    After clicking <i>Create</i> to run the generator you can download the map as a PNG with transparent background on the top right.
+                    Try it out with the default configuration!
+                </p>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-close waves-effect btn-flat">Close</a>
+            </div>
+        </div>
+
+        <div id="modal_info" class="modal modal-fixed-footer">
+            <div class="modal-content">
+                <h4>Info</h4>
+                <p>
+                    The <a href="https://en.wikipedia.org/wiki/Mercator_projection" target="_blank">Mercator projection</a> is commonly applied to create world maps,
+                    transferring the spherical geometry of the earth onto a two-dimensional plane in the process.
+                    While preserving direction and size relations on local scales, projecting the entire globe results in distortion of sizes and distances, particularly in the polar regions.
+                    This tool aims to visualize the disadvantages of the Mercator projection by displaying the distances between locations on a custom Mercator world map.
+                </p>
+                <p>
+                    Any point on the map created by this tool is colored according to a certain location (among those that are given) which it is closest to.
+                    <br>
+                    This tool is not perfectly accurate, as the underlying calculations rely a bit on estimation, but generates some good visualizations.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-close waves-effect btn-flat">Close</a>
+            </div>
+        </div>
+    </body>
+</html> 
